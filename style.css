@@ -1,0 +1,257 @@
+body{
+  background-color:black;
+  margin:0;
+  padding:0;
+}
+
+#title{
+  color:white;
+  font-size:3em;
+  text-align:center;
+  padding: 5px 0;
+}
+
+#correct{ /*div holding the area where the correct number of tiles will display*/
+  position:absolute;
+  color:white;
+  text-align:center;
+  width:200px;
+  height:50px;
+  left:70px;
+  border:1px solid white;
+}
+
+#count{/*area where the actual number of correct pieces will display*/
+  position:relative;
+  width:100px;
+  height:30px;
+  left:50px;
+  border:1px solid white;
+}
+
+#puzzleHint{/*what is displayed when user mouses down on 'hint' button*/
+  position:absolute;
+  display:none;
+  width:868px;
+  height:579px;
+  left:25%;
+  z-index:1000;
+}
+
+#puzzleArea{/*area of puzzle board where user will drop and arrange pieces*/
+  position:absolute;
+  display:inline-block;
+  width:868px;
+  height:579px;
+  left:25%;
+  border:1px solid white;
+  margin:auto;
+}
+
+
+#timerArea,#level{/*area for the count downntimer and the level choice*/
+  position:absolute;
+  display:inline-block;
+  width:300px;
+  height:579px;
+  left:80%;
+  border:1px solid white;
+}
+
+#level{/*area where user is instucted to choose a level*/
+  width:600px;
+  height:200px;
+  left:35%;
+  top:20%;
+  border:1px solid white;
+  background-color:transparent;
+  z-index:1000;
+}
+
+#level p{/*level message*/
+  font-size:1.5em;
+  color:white;
+  text-align:center;
+}
+
+#level ul{/*level unordered list*/
+  list-style-type:none;
+  color:white;
+  font-size:1.5em;
+}
+
+#level ul input{/*leve radio buttons for user to choose from */
+  display:inline-block;
+}
+
+#level ul li{/*list choices*/
+  display:inline-block;
+}
+
+#level button{/*applies to the start button*/
+  position:relative;
+}
+
+label:hover{
+  cursor: pointer;
+}
+
+#piecesArea{/*area where pieces will appear randomized for user to grab from */
+  position:absolute;
+  display:block;
+  width:100%;
+  height:300px;
+  top:650px;
+  border:1px solid white;
+}
+
+.tiles{/*the holes where user will drop the pieces to solve the puzzle*/
+  position:absolute;
+  width:100px;
+  height:100px;
+  border-radius:50%;
+}
+
+/*each of the circle holes or tiles is positioned in specific location so that user can solve the puzzle*/
+
+.tileColumn-one{
+  left:41px;
+}
+
+.tileColumn-two{
+  left:125px;
+}
+
+.tileColumn-three{
+  left:209px;
+}
+
+.tileColumn-four{
+  left:293px;
+}
+
+.tileColumn-five{
+  left:377px;
+}
+
+.tileColumn-six{
+  left:461px;
+}
+
+.tileColumn-seven{
+  left:545px;
+}
+
+.tileColumn-eight{
+  left:629px;
+}
+
+.tileColumn-nine{
+  left:713px;
+}
+
+#one{
+  top:45px;
+
+}
+
+#two{
+  top:142px;
+;
+}
+
+#three{
+  top:239px;
+}
+
+#four{
+  top:336px;
+}
+
+#five{
+  top:433px;
+}
+
+#six, #fifteen, #twenty-four, #thirty-three{
+  top:94px;
+}
+
+#seven, #sixteen, #twenty-five, #thirty-four{
+  top:191px;
+}
+
+#eight, #seventeen, #twenty-six, #thirty-five{
+  top:288px;
+}
+
+#nine, #eighteen, #twenty-seven, #thirty-six{
+  top:385px;
+}
+
+#ten, #nineteen, #twenty-eight, #thirty-seven{
+  top:46px;
+}
+
+#eleven, #twenty, #twenty-nine, #thirty-eight{
+  top:143px;
+}
+#twelve, #twenty-one, #thirty, #thirty-nine{
+  top:240px;
+}
+#thirteen,#twenty-two, #thirty-one, #forty{
+  top:337px;
+}
+#fourteen, #thirty-two, #forty-one{
+  top:435px;
+}
+
+#twenty-three{
+  top:434px;
+}
+
+#clock{/*area for the count down timer*/
+  border:1px solid red;
+  width:80%;
+  height:70px;
+  margin-top:50px;
+  margin-left:10%;
+  position:relative;
+  color:white;
+  font-size:2.5em;
+  text-align: center;
+}
+
+.stop{/*stop button*/
+  display:none;
+  left:30px;
+  margin-top:50%;
+}
+
+.reset{/*reset button*/
+  display:none;
+  left:90px;
+  margin-top:50%;
+}
+
+.start{/*start button*/
+  top:-40px;
+  margin-left:490px;
+}
+
+.btn{/*all buttons in general*/
+	position:relative;
+	width:100px;
+	height:50px;
+	border-radius:5%;
+}
+
+.btn:hover{
+  cursor: pointer;
+}
+
+.hint{/*hint button*/
+  display:none;
+  margin-top:10%;
+  left:70px;
+}
+
