@@ -1,4 +1,4 @@
-
+'use strict';
  var tile;  // the 'tile' variable stands for the grabbed puzzle piece 
   
   var clockDisplay; //variable for the repeatable interval counting down the alloted time to solve puzzle
