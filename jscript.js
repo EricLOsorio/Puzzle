@@ -1,5 +1,5 @@
 
-  var tile;  // the 'tile' variable stands for the grabbed puzzle piece 
+ var tile;  // the 'tile' variable stands for the grabbed puzzle piece 
   
   var clockDisplay; //variable for the repeatable interval counting down the alloted time to solve puzzle
 
@@ -25,6 +25,7 @@
 
   /*This is what happens when user clicks on the reset button*/
   reset.addEventListener('click',function(){
+    'use strict';
     var congratsMessage=document.getElementById('congrats'); //holds div displaying the congrulations message
     var outOfTimeMessage=document.getElementById('outOfTime');//holds div displaying the out of time message
     var clock=document.getElementById('clock'); //holds the actual countdown timer viewd by user
@@ -43,6 +44,7 @@
 
 /*This is what happens when the player 'mouses down' on the 'hint' button*/
   theHint.addEventListener('mousedown',function(){
+    'use strict';
      if(choice==='easy'){//'easy' level will only display 3 hints per session
        if(hintCount<3 ){
          puzzleHint.style.display='block';
@@ -58,19 +60,21 @@
 
 /*This is what happens when player lifts finger from the 'hint' button*/
   theHint.addEventListener('mouseup',function(){
+    'use strict';
     puzzleHint.style.display='none';
 
   });
 
 /*This is what happens if the player tries to keep 'hint' button pressed while moving pointer away from that button*/
   theHint.addEventListener('mouseout',function(){
+    'use strict';
     puzzleHint.style.display='none';
   })
 
 
 /*This is what happens when player clicks on the 'stop' button*/
   stop.addEventListener('click',function(){
-
+    'use strict';
     solve(); //puzzle is solved
     stopClock(clockDisplay);//clock is stopped
     stop.style.display="none"; //stop button goes away
@@ -80,6 +84,8 @@
 
 /*This is what happens when theplayer clicks on the 'start' button*/
   start.addEventListener('click',function(){
+
+    'use strict';
     remove(); //all puzzle pieces on the board are removed
 
     var puzzleArea=document.getElementById('puzzleArea'); //holds the div area where pieces will go to solve the puzzle
@@ -114,8 +120,10 @@
 
 
 function random(){ //Function to create a random array that will be used to dictate the scrambled position of puzzle pieces
+  'use strict';
   var arr=[]; //arr will hold numbers from 1 through 41, according to their position in the array
   var randomArr=[]; //will hold numbers 1 through 41
+  var r;
   arr[0]=null; //The first element @ position 0 will be null, as the randomArr will only hold numbers 1 through 41
   for(var i=1;i<42;i++){arr.push(i)};//push numbers 1 through 41 into arr
 
@@ -131,6 +139,7 @@ function random(){ //Function to create a random array that will be used to dict
 }
 
 function remove(){ //function to remove all puzzle pieces from the screen
+  'use strict';
   for(var i=0;i<tileHoles.length;i++){ //for all the puzzle piece holes on the puzzle board
     if(tileHoles[i].childNodes.length !==0){ //if the hole holds a piece inside
       tileHoles[i].removeChild(tileHoles[i].childNodes[0]);  //remove it     
@@ -150,6 +159,7 @@ function remove(){ //function to remove all puzzle pieces from the screen
 }
 
 function createTiles(){//function to create the tiles to populate the piecesArea
+  'use strict';
   var piece;//will hold the IMG eleent
   var tileArray=[]; //array where elements will be held
 
@@ -168,7 +178,7 @@ function createTiles(){//function to create the tiles to populate the piecesArea
 }
 
 function scramble(){ //funcitonto scramble the puzzle pieces
-
+  'use strict';
   var randomPiece=random(); //holds the array of random numbers from 1 through 41
   var puzzleTiles=createTiles();//holds the ordered tiles created 
 
@@ -180,15 +190,18 @@ function scramble(){ //funcitonto scramble the puzzle pieces
 
 
   function dragstart_handler(event){ //what happens as soon as a drag starts
-  	tile=event.target; //the grabbed piece becomes the 'tile'
-  	event.dataTransfer.setData("image/png", event.target);//the thumb image during drag
+    'use strict';
+    tile=event.target; //the grabbed piece becomes the 'tile'
+    event.dataTransfer.setData("image/png", event.target);//the thumb image during drag
   }
 
   function dragover_handler(event){ //what happens when the drag is done
-  	event.preventDefault(); //prevent the default in order to specify the drop behavior
+    'use strict';
+    event.preventDefault(); //prevent the default in order to specify the drop behavior
   }
 
   function checkCorrectTiles(){//check the number of tiles that are correctly placed
+    'use strict';
     var correctTiles=0; //always start at 0 count
     for(var i=0;i<tileHoles.length;i++){ //for each of the puzzle circles on the puzzle board
       if(tileHoles[i].childNodes.length!==0){//if a circle has a child, i.e. a piece inside
@@ -203,7 +216,8 @@ function scramble(){ //funcitonto scramble the puzzle pieces
 
 
   function drop(event){ //what happens when a tile is dropped
-  	event.preventDefault(); //prevent default to specify custom behavior
+    'use strict';
+    event.preventDefault(); //prevent default to specify custom behavior
 
   
     if(choice==='easy'){  //check to see if 'easy' level was chosen
@@ -258,6 +272,8 @@ function scramble(){ //funcitonto scramble the puzzle pieces
 
   function solve(){ //function to solve the puzzle
 
+    'use strict';
+
     var pieces=document.getElementsByClassName('piece'); //container for all the puzzle piece elements
 
     remove(); //remove any pieces currently on the board
@@ -273,6 +289,8 @@ function scramble(){ //funcitonto scramble the puzzle pieces
   }
 
   function outOfTime(){ //function to run when player runs out of time
+
+    'use strict';
     var piece=document.getElementsByClassName('piece'); //container for the pieces on the screen
     
     for(var i=0; i<piece.length;i++){ //for each of the pieces on the screen
@@ -310,6 +328,8 @@ function scramble(){ //funcitonto scramble the puzzle pieces
 
   function congrats(){ //congratulatory function
 
+    'use strict';
+
     var piece=document.getElementsByClassName('piece'); //container for all puzzle pieces on the screen
 
    
@@ -343,10 +363,14 @@ function scramble(){ //funcitonto scramble the puzzle pieces
   }
 
   function stopClock(clockDisplay){//function to stop the clock
+    'use strict';
     clearInterval(clockDisplay);
   }
 
   function clock(){//function for the timer that the user will see counting down the time left to solve the puzzle
+    
+    'use strict';
+
     var clock=document.getElementById('clock'); //the div displaying the count down timer
 
     var time=0; //holds how long the allowed time will be, 2 seconds added to time to account for lag time to show on screen after 'start' button clicked
@@ -389,3 +413,5 @@ function scramble(){ //funcitonto scramble the puzzle pieces
     },1000) //one second interval
 
 }
+
+ 
