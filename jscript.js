@@ -74,7 +74,7 @@ window.onload = ( function () {
     start.style.display="block"; //display the 'start' button again
     level.style.display='block'; //display the div for choosing difficulty level
     reset.style.display='none';  //hide the 'reset' button
-  })
+  });
 
 /*This is what happens when the player 'mouses down' on the 'hint' button*/
   theHint.addEventListener('mousedown',function(){
@@ -103,7 +103,7 @@ window.onload = ( function () {
   theHint.addEventListener('mouseout',function(){
     
     puzzleHint.style.display='none';
-  })
+  });
 
 
 /*This is what happens when player clicks on the 'stop' button*/
@@ -117,7 +117,7 @@ window.onload = ( function () {
     stop.style.display="none"; //stop button goes away
     theHint.style.display="none";//hint button goes away
     reset.style.display="block";//reset button appears
-  })
+  });
 
 /*This is what happens when theplayer clicks on the 'start' button*/
   start.addEventListener('click',function(){
@@ -158,9 +158,9 @@ window.onload = ( function () {
 
    requestAnimationFrame(function() {
         count.innerHTML = correctTiles;
-   })
+   });
 
-  })
+  });
 
 
 function random(){ //Function to create a random array that will be used to dictate the scrambled position of puzzle pieces
@@ -169,7 +169,7 @@ function random(){ //Function to create a random array that will be used to dict
   var randomArr=[]; //will hold numbers 1 through 41
   var r;
   arr[0]=null; //The first element @ position 0 will be null, as the randomArr will only hold numbers 1 through 41
-  for(var i=1;i<42;i++){arr.push(i)};//push numbers 1 through 41 into arr
+  for(var i=1;i<42;i++){arr.push(i);};//push numbers 1 through 41 into arr
 
   for(var i=1; i<42;i++){//for each element from 1 through 41
     r=Math.ceil(Math.random()*41); //create a random number from 1 through 41
@@ -215,7 +215,7 @@ function scramble(){ //funciton to scramble the puzzle pieces
   };
   requestAnimationFrame(function(){
       piecesArea.appendChild(fragmentArea);
-  })
+  });
 
 }
 
@@ -439,7 +439,7 @@ function scramble(){ //funciton to scramble the puzzle pieces
       }
 
 
-    },1000) //one second interval
+    },1000); //one second interval
 
 }
 
