@@ -31,7 +31,7 @@ body{
 
 #puzzleHint{/*what is displayed when user mouses down on 'hint' button*/
   position:absolute;
-  display:none;
+  display:block;
   width:868px;
   height:579px;
   left:25%;
@@ -106,7 +106,7 @@ label:hover{
 }
 
 .tiles{/*the holes where user will drop the pieces to solve the puzzle*/
-  position:absolute;
+  position:absolute; 
   width:100px;
   height:100px;
   border-radius:50%;

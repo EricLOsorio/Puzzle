@@ -1,4 +1,9 @@
+window.onload = ( function () {
+
 'use strict';
+
+    var correctTiles=0; //always start at 0 count
+
  var tile;  // the 'tile' variable stands for the grabbed puzzle piece 
   
   var clockDisplay; //variable for the repeatable interval counting down the alloted time to solve puzzle
@@ -22,29 +27,58 @@
   var levelChoice=document.getElementsByName('level');// input choices for setting difficulty level
 
   var choice=''; //variable that holds the difficulty level chosen by player, i.e.'easy', 'medium', or 'hard'
+  
+  var tileArray=[]; //array where elements will be held
+
+  tileArray = createTiles(tileArray,tileHoles);
+
+
+  function createTiles(tileArray, tileHoles){//function to create the tiles to populate the piecesArea
+  
+  var piece;//will hold the IMG eleent
+
+
+  for(var i=0; i<41; i++){ //create 41 pieces
+
+      piece=document.createElement("IMG"); //IMG element container
+      piece.setAttribute("class", "piece "+tileHoles[i].id); //set the class
+      piece.setAttribute("id", "piece"+(i+1));//set the id
+      piece.setAttribute("src", "Hexagon_puzzle/piece"+(i+1)+".png");//set the source
+      piece.setAttribute("draggable", "true"); ///set the draggable attribute
+      piece.setAttribute("ondragstart","dragstart_handler(event)"); //set the ondragstart attribute
+      tileArray.push(piece);//push each created element to the array
+    } 
+
+    return tileArray; //return thearray
+}
 
   /*This is what happens when user clicks on the reset button*/
   reset.addEventListener('click',function(){
-    'use strict';
+     
     var congratsMessage=document.getElementById('congrats'); //holds div displaying the congrulations message
     var outOfTimeMessage=document.getElementById('outOfTime');//holds div displaying the out of time message
     var clock=document.getElementById('clock'); //holds the actual countdown timer viewd by user
+    
+    puzzleHint.style.display = 'block';
+
+    remove(tileHoles);
+
     if(congratsMessage){ //will remove congratulatory div if it exists
       congratsMessage.parentNode.removeChild(congratsMessage);
     };
     if(outOfTimeMessage){ //will remove time out message div if it exists
       outOfTimeMessage.parentNode.removeChild(outOfTimeMessage);
-      solve(); //will solve the puzzle so that the user views the puzzle
-    }
+    };
+    correctTiles = 0;
     clock.innerHTML="0:00";// clock gets reset to '0:00'
     start.style.display="block"; //display the 'start' button again
     level.style.display='block'; //display the div for choosing difficulty level
     reset.style.display='none';  //hide the 'reset' button
-  })
+  });
 
 /*This is what happens when the player 'mouses down' on the 'hint' button*/
   theHint.addEventListener('mousedown',function(){
-    'use strict';
+    
      if(choice==='easy'){//'easy' level will only display 3 hints per session
        if(hintCount<3 ){
          puzzleHint.style.display='block';
@@ -60,33 +94,38 @@
 
 /*This is what happens when player lifts finger from the 'hint' button*/
   theHint.addEventListener('mouseup',function(){
-    'use strict';
+    
     puzzleHint.style.display='none';
 
   });
 
 /*This is what happens if the player tries to keep 'hint' button pressed while moving pointer away from that button*/
   theHint.addEventListener('mouseout',function(){
-    'use strict';
+    
     puzzleHint.style.display='none';
-  })
+  });
 
 
 /*This is what happens when player clicks on the 'stop' button*/
   stop.addEventListener('click',function(){
-    'use strict';
-    solve(); //puzzle is solved
+    
+    correctTiles = 0;
+    count.innerHTML = correctTiles;
+    remove(tileHoles); //puzzle is solved
+    puzzleHint.style.display = 'block';
     stopClock(clockDisplay);//clock is stopped
     stop.style.display="none"; //stop button goes away
     theHint.style.display="none";//hint button goes away
     reset.style.display="block";//reset button appears
-  })
+  });
 
 /*This is what happens when theplayer clicks on the 'start' button*/
   start.addEventListener('click',function(){
 
-    'use strict';
-    remove(); //all puzzle pieces on the board are removed
+
+    puzzleHint.style.display = 'none';
+
+    correctTiles=0;
 
     var puzzleArea=document.getElementById('puzzleArea'); //holds the div area where pieces will go to solve the puzzle
 
@@ -105,7 +144,6 @@
         alert("Start in "+choice+ " mode. You get 3 Hints. Hold Mouse Button DOWN for Hint.");        
     };
 
-
     
     clock(); //The clock function runs to start the clock
     scramble();//The scramble function runs to create scrambled pieces at the bottom of the screen
@@ -116,16 +154,22 @@
     /*The 'hint' and 'stop' buttons are shown*/
     theHint.style.display="inline-block"; 
     stop.style.display="inline-block";
-  })
+
+
+   requestAnimationFrame(function() {
+        count.innerHTML = correctTiles;
+   });
+
+  });
 
 
 function random(){ //Function to create a random array that will be used to dictate the scrambled position of puzzle pieces
-  'use strict';
+  
   var arr=[]; //arr will hold numbers from 1 through 41, according to their position in the array
   var randomArr=[]; //will hold numbers 1 through 41
   var r;
   arr[0]=null; //The first element @ position 0 will be null, as the randomArr will only hold numbers 1 through 41
-  for(var i=1;i<42;i++){arr.push(i)};//push numbers 1 through 41 into arr
+  for(var i=1;i<42;i++){arr.push(i);};//push numbers 1 through 41 into arr
 
   for(var i=1; i<42;i++){//for each element from 1 through 41
     r=Math.ceil(Math.random()*41); //create a random number from 1 through 41
@@ -138,8 +182,8 @@ function random(){ //Function to create a random array that will be used to dict
   return randomArr; //return array holding unique random numbers from 1 through 41
 }
 
-function remove(){ //function to remove all puzzle pieces from the screen
-  'use strict';
+function remove(tileHoles){ //function to remove all puzzle pieces from the screen
+  
   for(var i=0;i<tileHoles.length;i++){ //for all the puzzle piece holes on the puzzle board
     if(tileHoles[i].childNodes.length !==0){ //if the hole holds a piece inside
       tileHoles[i].removeChild(tileHoles[i].childNodes[0]);  //remove it     
@@ -158,66 +202,65 @@ function remove(){ //function to remove all puzzle pieces from the screen
   }
 }
 
-function createTiles(){//function to create the tiles to populate the piecesArea
-  'use strict';
-  var piece;//will hold the IMG eleent
-  var tileArray=[]; //array where elements will be held
 
-  for(var i=0; i<41; i++){ //create 41 pieces
-
-      piece=document.createElement("IMG"); //IMG element container
-      piece.setAttribute("class", "piece "+tileHoles[i].id); //set the class
-      piece.setAttribute("id", "piece"+(i+1));//set the id
-      piece.setAttribute("src", "Hexagon_puzzle/piece"+(i+1)+".png");//set the source
-      piece.setAttribute("draggable", "true"); ///set the draggable attribute
-      piece.setAttribute("ondragstart","dragstart_handler(event)"); //set the ondragstart attribute
-      tileArray.push(piece);//push each created element to the array
-    } 
-
-    return tileArray; //return thearray
-}
-
-function scramble(){ //funcitonto scramble the puzzle pieces
-  'use strict';
-  var randomPiece=random(); //holds the array of random numbers from 1 through 41
-  var puzzleTiles=createTiles();//holds the ordered tiles created 
+function scramble(){ //funciton to scramble the puzzle pieces
+  
+  var randomPiece = random(); //holds the array of random numbers from 1 through 41
+  var puzzleTiles = tileArray;//holds the ordered tiles created 
+  var fragmentArea = document.createDocumentFragment();
 
   for(var i=0;i<41;i++){ //grab the random numbered piece and append it to the piecesArea
-    piecesArea.appendChild(puzzleTiles[randomPiece[i]-1]);
+    puzzleTiles[randomPiece[i]-1].removeAttribute("style");
+    fragmentArea.appendChild(puzzleTiles[randomPiece[i]-1]);
   };
-  
+  requestAnimationFrame(function(){
+      piecesArea.appendChild(fragmentArea);
+  });
+
 }
 
 
   function dragstart_handler(event){ //what happens as soon as a drag starts
-    'use strict';
+    
     tile=event.target; //the grabbed piece becomes the 'tile'
     event.dataTransfer.setData("image/png", event.target);//the thumb image during drag
+
   }
 
   function dragover_handler(event){ //what happens when the drag is done
-    'use strict';
+    
     event.preventDefault(); //prevent the default in order to specify the drop behavior
   }
 
-  function checkCorrectTiles(){//check the number of tiles that are correctly placed
-    'use strict';
-    var correctTiles=0; //always start at 0 count
-    for(var i=0;i<tileHoles.length;i++){ //for each of the puzzle circles on the puzzle board
-      if(tileHoles[i].childNodes.length!==0){//if a circle has a child, i.e. a piece inside
-        if(tileHoles[i].childNodes[0].classList.contains(tileHoles[i].id)){//check to see if the piece is correct for the hole
+  function checkCorrectTiles(tileHoles,tile){//check the number of tiles that are correctly placed
+    
+
+   if(tileHoles.classList.contains('piece')){
+     if(tileHoles.classList.contains(tileHoles.parentNode.id) && tile.classList.contains(tile.parentNode.id)){
+      correctTiles -=2;
+    } else if(tileHoles.classList.contains(tileHoles.parentNode.id) || tile.classList.contains(tile.parentNode.id)){
+      correctTiles--;
+    } else if(tile.classList.contains(tileHoles.parentNode.id) && tileHoles.classList.contains(tile.parentNode.id)){
+        correctTiles+=2;
+     } else if(tile.classList.contains(tileHoles.parentNode.id) || tileHoles.classList.contains(tile.parentNode.id)){
+        correctTiles++;
+     }
+   } else if(tile.classList.contains(tileHoles.id)){//check to see if the piece is correct for the hole
           correctTiles++;//if it is, count it as correcct and increment the 'correctTiles' counter
+        } else if(tile.classList.contains(tile.parentNode.id)){
+          correctTiles--;
         }
-      }
-    }
+
     return correctTiles; //return the count
   }
 
 
 
   function drop(event){ //what happens when a tile is dropped
-    'use strict';
+    
     event.preventDefault(); //prevent default to specify custom behavior
+
+    var correct = checkCorrectTiles(event.target,tile);
 
   
     if(choice==='easy'){  //check to see if 'easy' level was chosen
@@ -226,11 +269,13 @@ function scramble(){ //funcitonto scramble the puzzle pieces
          
         tile.parentNode.removeChild(tile); //remove the puzzle piece grabbed from the piecesArea
         event.target.appendChild(tile); //append the piece to the puzzle circle area
-        if(checkCorrectTiles()===41){ //check to see if puzzle has been completed
+        
+
+        if(correct===41){ //check to see if puzzle has been completed
           stopClock(clockDisplay);//if so, stop the clock
           setTimeout(function(){congrats();},3000);//wait 3 seconds and then run congratulatory function
         };
-        count.innerHTML=checkCorrectTiles();//calculate and display the number of correct puzzle pieces after each drop
+        count.innerHTML = correct;//calculate and display the number of correct puzzle pieces after each drop
       };
 
     } else{ //for any of the other levels, 'medium', or 'hard'
@@ -251,46 +296,30 @@ function scramble(){ //funcitonto scramble the puzzle pieces
           document.getElementById(fromPosition).appendChild(tileTargetClone);
           document.getElementById(toPosition).appendChild(tileClone);
         
-          if(checkCorrectTiles()===41){ //check to see if puzzle is complete
+          if(correct===41){ //check to see if puzzle is complete
             stopClock(clockDisplay);//if so stop the clock
             setTimeout(function(){congrats();},3000);//wait 3 seconds to run congratulatory function
           };
-          count.innerHTML=checkCorrectTiles();//calculate and display the number of correct puzzle pieces after each drop
+          count.innerHTML=correct;//calculate and display the number of correct puzzle pieces after each drop
 
         } else if(event.target!==tile){ //if the puzzle piece is NOT going onto another piece and it is not going onto itself
             tile.parentNode.removeChild(tile);//remove the grabbed piece from original location
             event.target.appendChild(tile); //apppended to new destination
-            if(checkCorrectTiles()===41){ //check if the puzzle is solved
+
+            if(correct===41){ //check if the puzzle is solved
               stopClock(clockDisplay);  //if solved, stop the clock
               setTimeout(function(){congrats();},3000);//wait 3 seconds and then run the contratulatory function
             };
-            count.innerHTML=checkCorrectTiles();//calculate and display the number of correct puzzle pieces after each drop
+            count.innerHTML=correct--;//calculate and display the number of correct puzzle pieces after each drop
           }
     }
 
   }
 
-  function solve(){ //function to solve the puzzle
-
-    'use strict';
-
-    var pieces=document.getElementsByClassName('piece'); //container for all the puzzle piece elements
-
-    remove(); //remove any pieces currently on the board
-
-    var solutionTiles=createTiles(); //create new puzzle pieces which will be placed in the correct positions on the puzzle board
-
-    for(var i=0;i<tileHoles.length;i++){//for each of the puzzle piece circles (empty position) on the board
-
-      tileHoles[i].appendChild(solutionTiles[i]);//append each of the created pieces in their corresponding place
-
-    }
-
-  }
 
   function outOfTime(){ //function to run when player runs out of time
 
-    'use strict';
+    
     var piece=document.getElementsByClassName('piece'); //container for the pieces on the screen
     
     for(var i=0; i<piece.length;i++){ //for each of the pieces on the screen
@@ -328,7 +357,7 @@ function scramble(){ //funcitonto scramble the puzzle pieces
 
   function congrats(){ //congratulatory function
 
-    'use strict';
+    
 
     var piece=document.getElementsByClassName('piece'); //container for all puzzle pieces on the screen
 
@@ -363,13 +392,13 @@ function scramble(){ //funcitonto scramble the puzzle pieces
   }
 
   function stopClock(clockDisplay){//function to stop the clock
-    'use strict';
+    
     clearInterval(clockDisplay);
   }
 
   function clock(){//function for the timer that the user will see counting down the time left to solve the puzzle
     
-    'use strict';
+    
 
     var clock=document.getElementById('clock'); //the div displaying the count down timer
 
@@ -410,8 +439,12 @@ function scramble(){ //funcitonto scramble the puzzle pieces
       }
 
 
-    },1000) //one second interval
+    },1000); //one second interval
 
 }
 
- 
+window.dragover_handler = dragover_handler;
+window.dragstart_handler = dragstart_handler;
+window.drop = drop;
+
+ }(window.console));
